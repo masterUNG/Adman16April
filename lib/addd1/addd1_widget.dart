@@ -1,10 +1,8 @@
 import '../add2/add2_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Addd1Widget extends StatefulWidget {
   const Addd1Widget({Key key}) : super(key: key);
@@ -24,7 +22,7 @@ class _Addd1WidgetState extends State<Addd1Widget> {
         backgroundColor: Color(0xFF050317),
         automaticallyImplyLeading: false,
         title: Text(
-          'โพสต์ใหม่ ',
+          'โพสต์ใหม่',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
