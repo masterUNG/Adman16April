@@ -1,4 +1,4 @@
-package com.flutterflow.adman
+package com.maneelive.adman
 
 import io.flutter.embedding.android.FlutterActivity
 
