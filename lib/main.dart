@@ -1,18 +1,37 @@
-import 'package:flutter/gestures.dart';
+import 'package:adman/home_page/home_page_widget.dart';
+import 'package:adman/states/authen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:adman/home_page/home_page_widget.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
-import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+final Map<String, WidgetBuilder> map = {
+  '/authen': (context) => Authen(),
+  '/homePageWidget': (context) => HomePageWidget(),
+};
+
+String initialRoute;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await FlutterFlowTheme.initialize();
 
-  runApp(MyApp());
+  await Firebase.initializeApp().then((value) async {
+    print('Firebase Initial Success');
+
+    await FirebaseAuth.instance.authStateChanges().listen((event) {
+      if (event == null) {
+        initialRoute = '/authen';
+      } else {
+        initialRoute = '/homePageWidget';
+      }
+    });
+
+    runApp(MyApp());
+  }).catchError((onError) => print('hame error ===>>  $onError'));
 }
 
 class MyApp extends StatefulWidget {
@@ -49,7 +68,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
-      home: HomePageWidget(),
+      // home: HomePageWidget(),  //หน้าเดิม
+      // home: Authen(),
+      routes: map,
+      initialRoute: initialRoute,
     );
   }
 }

@@ -1,3 +1,6 @@
+import 'package:adman/states/authen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../addd1/addd1_widget.dart';
 import '../comment/comment_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
@@ -51,6 +54,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   builder: (context) => Addd1Widget(),
                 ),
               );
+            },
+          ),
+          FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
+            icon: Icon(
+              Icons.exit_to_app,
+              color: FlutterFlowTheme.of(context).primaryBtnText,
+              size: 30,
+            ),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut().then((value) {
+                   Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Authen(),
+                ),
+              );
+              });
             },
           ),
         ],

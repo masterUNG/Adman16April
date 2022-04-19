@@ -1,14 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../add2/add2_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page/home_page_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Add3Widget extends StatefulWidget {
-  const Add3Widget({Key key}) : super(key: key);
+  final List<File> files;
+  const Add3Widget({
+    Key key,
+    @required this.files,
+  }) : super(key: key);
 
   @override
   _Add3WidgetState createState() => _Add3WidgetState();
@@ -18,10 +26,14 @@ class _Add3WidgetState extends State<Add3Widget> {
   TextEditingController textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  List<File> files;
+
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
+    files = widget.files;
+    print('files ==> ${files.length}');
   }
 
   @override
@@ -51,7 +63,7 @@ class _Add3WidgetState extends State<Add3Widget> {
           },
         ),
         title: Text(
-          'โพสต์ใหม่',
+          'โพสต์ใหม่ ',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
@@ -124,11 +136,14 @@ class _Add3WidgetState extends State<Add3Widget> {
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Image.network(
-                          'https://picsum.photos/seed/31/600',
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
+                        // Image.network(
+                        //   'https://picsum.photos/seed/31/600',
+                        //   width: 100,
+                        //   height: 100,
+                        //   fit: BoxFit.cover,
+                        // ),
+                        SizedBox(width: 100,height: 100,
+                          child: Image.file(files[0]),
                         ),
                         Expanded(
                           child: TextFormField(
@@ -138,7 +153,7 @@ class _Add3WidgetState extends State<Add3Widget> {
                               hintText: '     เขียนคำบรรยาย',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Color(0x00000000),
+                                  color: Color.fromARGB(0, 228, 223, 223),
                                   width: 1,
                                 ),
                                 borderRadius: const BorderRadius.only(

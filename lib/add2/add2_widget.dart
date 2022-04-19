@@ -1,13 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../add3/add3_widget.dart';
 import '../addd1/addd1_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Add2Widget extends StatefulWidget {
-  const Add2Widget({Key key}) : super(key: key);
+  final List<File> files;
+  const Add2Widget({
+    Key key,
+    this.files,
+  }) : super(key: key);
 
   @override
   _Add2WidgetState createState() => _Add2WidgetState();
@@ -65,7 +73,7 @@ class _Add2WidgetState extends State<Add2Widget> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Add3Widget(),
+                  builder: (context) => Add3Widget(files: widget.files,),
                 ),
               );
             },

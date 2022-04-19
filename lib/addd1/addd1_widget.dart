@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+
 import '../add2/add2_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -13,6 +17,19 @@ class Addd1Widget extends StatefulWidget {
 
 class _Addd1WidgetState extends State<Addd1Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  File file;
+  var files = <File>[];
+  int indexFile = 0;
+
+  var imageWidgets = <Widget>[];
+  var chooses = <bool>[];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +61,7 @@ class _Addd1WidgetState extends State<Addd1Widget> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Add2Widget(),
+                  builder: (context) => Add2Widget(files: files,),
                 ),
               );
             },
@@ -60,19 +77,7 @@ class _Addd1WidgetState extends State<Addd1Widget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                width: double.infinity,
-                height: 250,
-                decoration: BoxDecoration(
-                  color: Color(0xFFEEEEEE),
-                ),
-                child: Image.network(
-                  'https://picsum.photos/seed/31/600',
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              file == null ? showDemyImage() : Image.file(file),
               Container(
                 width: double.infinity,
                 height: 400,
@@ -88,14 +93,19 @@ class _Addd1WidgetState extends State<Addd1Widget> {
                   children: [
                     Align(
                       alignment: AlignmentDirectional(-0.99, -0.92),
-                      child: Text(
-                        'แกลเลอรี่',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color:
-                                  FlutterFlowTheme.of(context).primaryBtnText,
-                            ),
-                      ),
+                      child: TextButton(
+                          onPressed: () {
+                            processTakePhoto(ImageSource.gallery);
+                          },
+                          child: Text(
+                            'แกลเลอรี่',
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBtnText,
+                                    ),
+                          )),
                     ),
                     Align(
                       alignment: AlignmentDirectional(0.33, -0.96),
@@ -132,73 +142,10 @@ class _Addd1WidgetState extends State<Addd1Widget> {
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
-                        child: GridView(
-                          padding: EdgeInsets.zero,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 1,
-                          ),
-                          scrollDirection: Axis.vertical,
-                          children: [
-                            Image.network(
-                              'https://picsum.photos/seed/31/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/780/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/964/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/77/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/514/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/724/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/265/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/107/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              'https://picsum.photos/seed/497/600',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ],
-                        ),
+                        // child: showImageGrid(),
+                        child: imageWidgets.isEmpty
+                            ? SizedBox()
+                            : myShowImageGrid(),
                       ),
                     ),
                     Align(
@@ -214,7 +161,7 @@ class _Addd1WidgetState extends State<Addd1Widget> {
                           size: 30,
                         ),
                         onPressed: () {
-                          print('IconButton pressed ...');
+                          processTakePhoto(ImageSource.camera);
                         },
                       ),
                     ),
@@ -226,5 +173,91 @@ class _Addd1WidgetState extends State<Addd1Widget> {
         ),
       ),
     );
+  }
+
+  Container showDemyImage() {
+    return Container(
+      width: double.infinity,
+      height: 250,
+      decoration: BoxDecoration(
+        color: Color(0xFFEEEEEE),
+      ),
+      child: Image.network(
+        'https://picsum.photos/seed/31/600',
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  GridView myShowImageGrid() {
+    return GridView.builder(
+        itemCount: imageWidgets.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 1,
+        ),
+        itemBuilder: (BuildContext context, int index) => imageWidgets[index]);
+  }
+
+  GridView showImageGrid() {
+    return GridView(
+      padding: EdgeInsets.zero,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1,
+      ),
+      scrollDirection: Axis.vertical,
+      children: imageWidgets,
+    );
+  }
+
+  void createImageWidgets(File file) {
+    var widget = SizedBox(
+      width: 100,
+      height: 100,
+      child: Stack(
+        children: [
+          Image.file(
+            file,
+            fit: BoxFit.cover,
+          ),
+          Checkbox(
+              value: chooses[indexFile],
+              onChanged: (value) {
+                print('onChabged Work at indexFlle ==>> $indexFile, value --> $value');
+                 
+                setState(() {
+                 chooses[indexFile] = value;
+                });
+              }),
+        ],
+      ),
+    );
+    setState(() {
+      imageWidgets.add(widget);
+    });
+  }
+
+  Future<void> processTakePhoto(ImageSource source) async {
+    var result = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 800,
+      maxHeight: 800,
+    );
+    if (result != null) {
+      setState(() {
+        file = File(result.path);
+        files.add(file);
+        chooses.add(false);
+        print('choose ==> $chooses');
+        createImageWidgets(file);
+      });
+    }
   }
 }
