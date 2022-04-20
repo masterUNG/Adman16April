@@ -94,7 +94,7 @@ class _Add3WidgetState extends State<Add3Widget> {
         centerTitle: false,
         elevation: 2,
       ),
-      backgroundColor: Color(0xFF0E0303),
+      backgroundColor: Color.fromARGB(255, 109, 106, 106),
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -105,7 +105,7 @@ class _Add3WidgetState extends State<Add3Widget> {
                 width: double.infinity,
                 height: 500,
                 decoration: BoxDecoration(
-                  color: Color(0xFF0E0303),
+                  color: Color.fromARGB(255, 161, 156, 156),
                 ),
                 child: Stack(
                   children: [

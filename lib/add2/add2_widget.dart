@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:adman/states/add_post_to_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -73,7 +74,8 @@ class _Add2WidgetState extends State<Add2Widget> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Add3Widget(files: widget.files,),
+                  // builder: (context) => Add3Widget(files: widget.files,),
+                   builder: (context) => AddPostToFirebase(files: widget.files),
                 ),
               );
             },
